@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GERMANY OR BUST — Ariel Vainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🥩</text></svg>" />
+  </head>
+  <body>
+    <section id="landing" aria-label="Germany or Bust introduction">
+      <video id="intro-video" autoplay playsinline loop preload="auto"></video>
+      <div id="landing-shade"></div>
+      <button id="sound-gate" type="button" hidden>CLICK TO PLAY WITH SOUND</button>
+      <div id="landing-copy" aria-hidden="true">
+        <p class="eyebrow">9:00 AM · FLIGHT DEPARTS AT 5:00 PM</p>
+        <h1>GERMANY OR BUST</h1>
+        <p class="description">
+          Ariel Vainer procrastinated until the last minute, and now it's the day of his
+          flight to Germany! Help him get through the day from 9 AM to catch his flight
+          at 5 PM.
+        </p>
+        <button id="start-game" type="button">CLICK TO START</button>
+        <p class="sound-note">Intro audio lowers here · M toggles game sound</p>
+      </div>
+    </section>
+    <div id="wrap" aria-hidden="true">
+      <canvas id="game" width="640" height="360"></canvas>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
