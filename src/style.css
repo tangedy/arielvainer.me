@@ -31,26 +31,6 @@ body {
   display: none !important;
 }
 
-#sound-gate {
-  position: relative;
-  z-index: 3;
-  padding: 20px 24px;
-  color: #0f1220;
-  background: #ffcd75;
-  border: 4px solid #f4f4f4;
-  box-shadow: 8px 8px 0 #1a1c2c;
-  font: inherit;
-  font-size: 10px;
-  cursor: pointer;
-}
-
-#sound-gate:hover,
-#sound-gate:focus-visible {
-  color: #f4f4f4;
-  background: #ef7d57;
-  outline: 3px solid #ffcd75;
-}
-
 #intro-video {
   position: absolute;
   inset: 0;

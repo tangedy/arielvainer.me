@@ -21,12 +21,10 @@ let canvasBooted = false;
 const landing = document.getElementById("landing");
 const landingCopy = document.getElementById("landing-copy");
 const video = document.getElementById("intro-video");
-const soundGate = document.getElementById("sound-gate");
 const startButton = document.getElementById("start-game");
 const wrap = document.getElementById("wrap");
 
 video.src = introVideoUrl;
-video.muted = false;
 video.volume = 1;
 
 let revealed = false;
@@ -49,38 +47,35 @@ function revealLanding() {
 video.addEventListener("timeupdate", () => {
   if (video.currentTime >= 3.5) revealLanding();
 });
+video.addEventListener("playing", markIntroStarted);
 
-function playWithSound() {
+function unmuteIntro() {
+  video.muted = false;
+  video.volume = revealed ? 0.12 : 1;
+  video.play().catch(() => {});
+}
+
+function playIntro() {
   video.muted = false;
   video.volume = 1;
   const attempt = video.play();
-  if (attempt?.then) {
-    attempt
-      .then(() => {
-        soundGate.hidden = true;
-        markIntroStarted();
-      })
-      .catch(() => {
-        video.pause();
-        video.currentTime = 0;
-        soundGate.hidden = false;
-        soundGate.focus({ preventScroll: true });
-      });
-  } else {
-    soundGate.hidden = true;
+  if (!attempt?.then) {
     markIntroStarted();
+    return;
   }
+  attempt.then(markIntroStarted).catch(() => {
+    video.muted = true;
+    video.play().then(markIntroStarted, markIntroStarted);
+  });
 }
 
-soundGate.addEventListener("click", () => {
-  video.currentTime = 0;
-  playWithSound();
-});
-playWithSound();
+landing.addEventListener("pointerdown", unmuteIntro);
+playIntro();
 
 function startGame() {
   if (booted) return;
   booted = true;
+  unmuteIntro();
   unlockAudio();
   startMusic(themeMusicUrl);
   landing.classList.add("is-leaving");
