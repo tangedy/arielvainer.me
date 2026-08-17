@@ -86,6 +86,26 @@ export function takeRiggedDealerCards(deck) {
   });
 }
 
+export const KONAMI_CODE = [
+  "ArrowUp",
+  "ArrowUp",
+  "ArrowDown",
+  "ArrowDown",
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowLeft",
+  "ArrowRight",
+  "KeyB",
+  "KeyA",
+];
+
+export function advanceKonami(progress, code) {
+  if (code === "KeyM") return progress;
+  if (code === KONAMI_CODE[progress]) return progress + 1;
+  if (code === KONAMI_CODE[0]) return 1;
+  return 0;
+}
+
 export function progressStage(done) {
   if (!done.cook) return 0;
   if (!done.docs) return 1;

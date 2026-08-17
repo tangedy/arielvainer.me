@@ -2,7 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   COOK_STATES,
+  KONAMI_CODE,
   advanceCookware,
+  advanceKonami,
   cookwareStatus,
   createRigBag,
   handValue,
@@ -105,4 +107,21 @@ test("timeline stage follows strict checkpoint order", () => {
   assert.equal(progressStage({ cook: true, docs: false, blackjack: false, sprint: false }), 1);
   assert.equal(progressStage({ cook: true, docs: true, blackjack: true, sprint: false }), 3);
   assert.equal(progressStage({ cook: true, docs: true, blackjack: true, sprint: true }), 4);
+});
+
+test("konami code advances and restarts from a fresh up", () => {
+  let progress = 0;
+  for (const code of KONAMI_CODE) progress = advanceKonami(progress, code);
+  assert.equal(progress, KONAMI_CODE.length);
+
+  progress = 0;
+  progress = advanceKonami(progress, "ArrowUp");
+  progress = advanceKonami(progress, "ArrowLeft");
+  assert.equal(progress, 0);
+  progress = advanceKonami(progress, "ArrowUp");
+  progress = advanceKonami(progress, "ArrowUp");
+  progress = advanceKonami(progress, "ArrowUp");
+  assert.equal(progress, 1);
+  progress = advanceKonami(progress, "KeyM");
+  assert.equal(progress, 1);
 });

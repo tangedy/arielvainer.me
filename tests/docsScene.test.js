@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { game } from "../src/engine.js";
 import { COPY } from "../src/copy.js";
 import { docs } from "../src/scenes/docs.js";
+import { KONAMI_CODE } from "../src/gameLogic.js";
+import { Scenes } from "../src/flow.js";
 
 function chooseCorrectEmail(documentIndex = 0) {
   docs.s.index = documentIndex;
@@ -49,4 +51,23 @@ test("last approval opens failed-attempt summary before leaving", () => {
   assert.equal(docs.s.complete, true);
   assert.equal(docs.s.failedAttempts, 11);
   game.muted = muted;
+});
+
+test("konami code skips the email level", () => {
+  const muted = game.muted;
+  const hub = Scenes.hub;
+  game.muted = true;
+  game.done.docs = false;
+  Scenes.hub = { enter() {} };
+  docs.enter();
+  for (const code of KONAMI_CODE) {
+    game.keysJust.clear();
+    game.keysJust.add(code);
+    docs.update(0);
+  }
+  assert.equal(game.done.docs, true);
+  game.muted = muted;
+  game.done.docs = false;
+  game.keysJust.clear();
+  Scenes.hub = hub;
 });

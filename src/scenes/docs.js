@@ -3,7 +3,7 @@ import { P, fill, stroke, text, bar, scanlines } from "../draw.js";
 import { COPY } from "../copy.js";
 import { sfx } from "../audio.js";
 import { Scenes } from "../flow.js";
-import { scoreEmail } from "../gameLogic.js";
+import { KONAMI_CODE, advanceKonami, scoreEmail } from "../gameLogic.js";
 
 const CATEGORIES = ["greeting", "accountability", "explanation", "request", "closing"];
 
@@ -21,6 +21,7 @@ function reset() {
     complete: false,
     elapsed: 0,
     failedAttempts: 0,
+    konami: 0,
     t: 0,
   };
 }
@@ -56,10 +57,25 @@ export const docs = {
       sfx.bad();
     }
   },
+  skipLevel() {
+    const s = this.s;
+    game.done.docs = true;
+    game.times.docs = s.elapsed;
+    sfx.win();
+    goto(Scenes.hub, { justCompleted: true, fromStage: 1 });
+  },
   update(dt) {
     const s = this.s;
     s.t += dt;
     s.elapsed += dt;
+
+    for (const code of game.keysJust) {
+      s.konami = advanceKonami(s.konami, code);
+      if (s.konami >= KONAMI_CODE.length) {
+        this.skipLevel();
+        return;
+      }
+    }
 
     if (s.complete) {
       if (
