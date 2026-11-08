@@ -20,6 +20,7 @@
   --orange-text: #b2481a;    /* orange readable as small text */
   --pink: #f3d3d6;           /* soft pink fills and washes */
   --pink-deep: #e9b9bf;
+  --cafe: #7a5640;           /* cafe brown: third column of the page transition */
   --c1: #151515; --c2: var(--pink); --c3: var(--orange);
 
   --font: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
@@ -53,7 +54,7 @@ h1, h2, h3 { margin: 0; font-weight: 500; }
 .curtain i { display: block; transform: scaleY(0); transform-origin: bottom; transition: transform .6s var(--ease); }
 .curtain i:nth-child(1) { background: var(--c1); }
 .curtain i:nth-child(2) { background: var(--c2); transition-delay: .06s; }
-.curtain i:nth-child(3) { background: var(--c3); transition-delay: .12s; }
+.curtain i:nth-child(3) { background: var(--cafe); transition-delay: .12s; }
 .curtain.cover i, .covered .curtain i { transform: scaleY(1); }
 .curtain.out i { transform-origin: top; }
 .covered .curtain i { transition: none; }
