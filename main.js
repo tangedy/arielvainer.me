@@ -84,7 +84,11 @@
         setTimeout(() => { loader.hidden = true; }, 1000);
       }, Math.max(0, (reduce ? 0 : 2100) - (performance.now() - t0)));
     };
-    if (document.readyState === 'complete') finish(); else addEventListener('load', finish, { once: true });
+    // lift on page load, but never keep people waiting more than ~3.5s on a slow connection
+    let done = false;
+    const once = () => { if (!done) { done = true; finish(); } };
+    if (document.readyState === 'complete') once(); else addEventListener('load', once, { once: true });
+    setTimeout(once, 3500);
   } else if (loader) loader.hidden = true;
 
   /* ---------- cursor ---------- */
