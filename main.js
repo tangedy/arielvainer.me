@@ -172,22 +172,6 @@
     $('.menu').addEventListener('pointerleave', () => $$('.photo.show', stage).forEach(p => p.classList.remove('show')));
   }
 
-  /* ---------- draggable photos ---------- */
-  let z = 5;
-  $$('.collage .photo').forEach(p => {
-    p.addEventListener('pointerdown', e => {
-      e.preventDefault();
-      const box = p.parentElement.getBoundingClientRect(), r = p.getBoundingClientRect();
-      const ox = e.clientX - r.left, oy = e.clientY - r.top;
-      p.style.zIndex = ++z; p.classList.add('dragging'); p.setPointerCapture(e.pointerId);
-      const move = ev => {
-        p.style.left = Math.max(0, Math.min(box.width - r.width, ev.clientX - box.left - ox)) / box.width * 100 + '%';
-        p.style.top = Math.max(0, Math.min(box.height - r.height, ev.clientY - box.top - oy)) / box.height * 100 + '%';
-      };
-      const up = () => { p.classList.remove('dragging'); p.removeEventListener('pointermove', move); p.removeEventListener('pointerup', up); };
-      p.addEventListener('pointermove', move); p.addEventListener('pointerup', up);
-    });
-  });
 
   /* ---------- tickets: click to punch and expand ---------- */
   $$('.ticket[role]').forEach(t => {
