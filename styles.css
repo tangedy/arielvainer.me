@@ -102,7 +102,7 @@ figcaption, .caption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 
 /* ---------- links and buttons ---------- */
 .text-link { display: inline-flex; gap: 8px; align-items: center; position: relative; }
-.text-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: max(-2px, calc(var(--pb, 0px) - 2px)); height: 2px; background: var(--orange); transform-origin: left; transition: transform .45s var(--out); }
+.text-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--orange); transform-origin: left; transition: transform .45s var(--out); }
 .text-link:hover::after { transform: scaleX(0); transform-origin: right; }
 .text-link svg { width: 16px; height: 16px; transition: transform .35s var(--out); }
 .text-link:hover svg { transform: translate(3px, -3px); }
@@ -359,3 +359,7 @@ figcaption, .caption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 
 .contact-reach .lede { font-size: clamp(21px, 1.9vw, 25px); line-height: 1.32; letter-spacing: -.015em; margin: 0; max-width: 30ch; }
 .proj-links a { padding-block: 4px; }
+.proj-links a::after { bottom: 2px; }
+
+/* the ticket notch mask clips outlines, so draw the focus ring inside the ticket */
+.ticket:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--ink); }
