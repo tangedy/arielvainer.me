@@ -14,14 +14,12 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://www.arielvainer.online/games.html">
-<script>try{if(sessionStorage.getItem('av-wipe'))document.documentElement.classList.add('covered')}catch(e){}</script>
+<script>document.documentElement.classList.add('js');setTimeout(function(){var r=document.documentElement;if(!r.classList.contains('ready'))r.classList.remove('js','loading','covered')},4000);try{if(sessionStorage.getItem('av-wipe'))document.documentElement.classList.add('covered')}catch(e){}</script>
 <link rel="icon" type="image/png" sizes="32x32" href="img/icons/favicon-32.png">
 <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
 <meta name="theme-color" content="#f2f0eb">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2d040c1b">
+<link rel="preload" href="fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=8d39280d">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -45,9 +43,9 @@
         <h3>Pac-Man Remake</h3><p class="game-meta">ICS4U final project</p><p>A Pac-Man remake built as the final project for my high-school CS course.</p><a class="text-link" href="https://arielvainer.itch.io/pacman-remake" target="_blank" rel="noopener">Play on itch.io <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></article></div></div>
   </section></div><section class="block grid">
     <div class="side"><h2 class="fade">Something to play with</h2><p class="fade">A block slides back and forth. Drop it onto the one below; whatever hangs over gets cut off. Miss completely and it’s game over.</p><button class="btn drop fade" type="button">Start</button><p class="score">Height <b class="h">0</b> · Best <b class="best">0</b></p><p class="score">Tap or click the tower, or press Space to drop.</p></div>
-    <div class="main"><div class="tower" role="application" aria-label="Tower stacking game"><div class="stack"></div><div class="tower-msg"></div></div></div>
+    <div class="main"><div class="tower" role="group" aria-label="Tower stacking game"><div class="stack"></div><div class="tower-msg"></div></div><p class="sr-only" aria-live="polite" id="tower-status"></p></div>
   </section><a class="next fade" href="contact.html"><span>Next</span><b>Contact<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></b></a>
 </main>
-<script src="main.js?v=87036a3b"></script>
+<script src="main.js?v=8711ed73"></script>
 </body>
 </html>

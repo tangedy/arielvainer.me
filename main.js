@@ -2,6 +2,7 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const root = document.documentElement;
+  root.classList.add('ready');   // tells the inline failsafe in <head> that this script is running
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const store = {
@@ -268,6 +269,9 @@
       return d;
     };
     const say = html => { msg.innerHTML = html; msg.hidden = !html; };
+    // screen readers hear the start, every 5 blocks, and the result
+    const status = $('#tower-status');
+    const announce = text => { if (status) status.textContent = text; };
 
     function reset() {
       stack.innerHTML = ''; stack.style.transform = '';
@@ -294,6 +298,7 @@
     }
     function start() {
       reset(); say(''); running = true;
+      announce('Game started. Press Space to drop each block.');
       btn.textContent = 'Drop';
       spawn();
       last = performance.now();
@@ -305,6 +310,7 @@
       const h = blocks.length - 1;
       if (h > best) { best = h; bestEl.textContent = best; try { localStorage.setItem('av-tower-best', best); } catch (e) {} }
       say(`<b>Game over</b>Height ${h}`);
+      announce(`Game over. Height ${h}. Best ${best}.`);
       btn.textContent = 'Play again';
     }
     function drop() {
@@ -326,6 +332,7 @@
       cur.el.style.left = L + 'px'; cur.el.style.width = (R - L) + 'px';
       blocks.push({ x: L, w: R - L });
       hEl.textContent = blocks.length - 1;
+      if ((blocks.length - 1) % 5 === 0) announce(`Height ${blocks.length - 1}.`);
       // keep the top of the tower in view
       const rise = (blocks.length + 3) * BH - tower.clientHeight;
       stack.style.transform = rise > 0 ? `translateY(${rise}px)` : '';
