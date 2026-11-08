@@ -145,6 +145,8 @@
     el.style.transitionDelay = Math.min(sibs.indexOf(el), 6) * 80 + 'ms';
     io.observe(el);
   });
+  // the real values are in the HTML (so they're right without JS); zero them only if we're going to count up
+  if (!reduce) $$('[data-count]').forEach(el => { el.textContent = (el.dataset.pre || '') + '0' + (el.dataset.suf || ''); });
   function countUp(el) {
     const to = +el.dataset.count, pre = el.dataset.pre || '', suf = el.dataset.suf || '';
     if (reduce) { el.textContent = pre + to + suf; return; }
