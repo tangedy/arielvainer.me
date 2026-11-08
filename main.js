@@ -214,27 +214,101 @@
     shot.addEventListener('pointerleave', () => { clearInterval(timer); show(0); });
   });
 
-  /* ---------- stacking toy ---------- */
-  const pile = $('.pile');
-  if (pile) {
-    const btn = $('.drop'), score = $('.score b');
-    const shades = ['var(--c1)', 'var(--c3)', 'var(--muted)', 'var(--c2)'];
-    let h = 0, busy = false;
-    btn.addEventListener('click', () => {
-      if (busy) return;
-      const w = 36 + Math.random() * 46, b = document.createElement('div');
-      b.className = 'blk';
-      b.style.cssText = `--h:${h};--dir:${h % 2 ? -1 : 1};width:${w}%;left:${Math.random() * (100 - w)}%;background:${shades[h % 4]}`;
-      pile.appendChild(b);
-      score.textContent = ++h;
-      if (h >= 8) {
-        busy = true; btn.disabled = true;
-        setTimeout(() => {
-          $$('.blk', pile).forEach(x => x.classList.add('fall'));
-          setTimeout(() => { pile.innerHTML = ''; h = 0; score.textContent = 0; busy = false; btn.disabled = false; }, 900);
-        }, 700);
+  /* ---------- tower game: a block slides side to side; drop it on the one below.
+     The overhang is cut off, so the tower narrows. Miss entirely and it's over. ---------- */
+  const tower = $('.tower');
+  if (tower) {
+    const stack = $('.stack', tower), msg = $('.tower-msg', tower);
+    const btn = $('.drop'), hEl = $('.score .h'), bestEl = $('.score .best');
+    const BH = 28, PERFECT = 3;
+    const colors = ['var(--ink)', 'var(--pink-deep)', 'var(--orange)', 'var(--cafe)'];
+    let W = 0, blocks = [], cur = null, dir = 1, speed = 0, running = false, raf = 0, last = 0, best = 0;
+    try { best = +localStorage.getItem('av-tower-best') || 0; } catch (e) {}
+    bestEl.textContent = best;
+
+    const block = (x, w, i, cls = '') => {
+      const d = document.createElement('div');
+      d.className = 'tb' + (cls ? ' ' + cls : '');
+      d.style.cssText = `left:${x}px;width:${w}px;bottom:${i * BH}px;background:${colors[i % colors.length]}`;
+      stack.appendChild(d);
+      return d;
+    };
+    const say = html => { msg.innerHTML = html; msg.hidden = !html; };
+
+    function reset() {
+      stack.innerHTML = ''; stack.style.transform = '';
+      W = tower.clientWidth;
+      const w = Math.round(W * 0.5), x = Math.round((W - w) / 2);
+      blocks = [{ x, w }];
+      block(x, w, 0);
+      hEl.textContent = 0;
+    }
+    function spawn() {
+      const top = blocks[blocks.length - 1], i = blocks.length;
+      dir = i % 2 ? 1 : -1;
+      speed = Math.min(150 + i * 14, 440);
+      const x = dir > 0 ? 0 : W - top.w;
+      cur = { x, w: top.w, el: block(x, top.w, i, 'moving') };
+    }
+    function loop(t) {
+      const dt = Math.min(0.05, (t - last) / 1000); last = t;
+      cur.x += dir * speed * dt;
+      if (cur.x <= 0) { cur.x = 0; dir = 1; }
+      if (cur.x >= W - cur.w) { cur.x = W - cur.w; dir = -1; }
+      cur.el.style.left = cur.x + 'px';
+      raf = requestAnimationFrame(loop);
+    }
+    function start() {
+      reset(); say(''); running = true;
+      btn.textContent = 'Drop';
+      spawn();
+      last = performance.now();
+      raf = requestAnimationFrame(loop);
+    }
+    function gameOver() {
+      running = false; cancelAnimationFrame(raf);
+      cur.el.classList.remove('moving'); cur.el.classList.add('fall');
+      const h = blocks.length - 1;
+      if (h > best) { best = h; bestEl.textContent = best; try { localStorage.setItem('av-tower-best', best); } catch (e) {} }
+      say(`<b>Game over</b>Height ${h}`);
+      btn.textContent = 'Play again';
+    }
+    function drop() {
+      if (!running) { start(); return; }
+      const prev = blocks[blocks.length - 1], i = blocks.length;
+      let L = Math.max(cur.x, prev.x), R = Math.min(cur.x + cur.w, prev.x + prev.w);
+      if (R - L <= 0) { gameOver(); return; }
+      if (Math.abs(cur.x - prev.x) <= PERFECT) {
+        L = prev.x; R = prev.x + prev.w;
+        cur.el.classList.add('perfect');
+      } else {
+        // slice off the overhang and let it fall
+        const cx = cur.x < prev.x ? cur.x : R, cw = cur.w - (R - L);
+        const chunk = block(cx, cw, i, 'chunk');
+        chunk.style.setProperty('--rot', (cur.x < prev.x ? -14 : 14) + 'deg');
+        chunk.addEventListener('animationend', () => chunk.remove());
       }
+      cur.el.classList.remove('moving');
+      cur.el.style.left = L + 'px'; cur.el.style.width = (R - L) + 'px';
+      blocks.push({ x: L, w: R - L });
+      hEl.textContent = blocks.length - 1;
+      // keep the top of the tower in view
+      const rise = (blocks.length + 3) * BH - tower.clientHeight;
+      stack.style.transform = rise > 0 ? `translateY(${rise}px)` : '';
+      spawn();
+    }
+
+    reset();
+    say('<b>Stack it</b>Click to start');
+    btn.addEventListener('click', drop);
+    tower.addEventListener('pointerdown', e => { e.preventDefault(); drop(); });
+    addEventListener('keydown', e => {
+      if (e.code !== 'Space' || (e.target instanceof Element && e.target.closest('button, a, input, textarea'))) return;
+      const r = tower.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;  // only when the game is on screen
+      e.preventDefault(); drop();
     });
+    addEventListener('resize', () => { if (!running) reset(); });
   }
 
   /* ---------- copy email ---------- */

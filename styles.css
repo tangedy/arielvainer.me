@@ -298,20 +298,16 @@ figcaption, .caption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 .card p { color: var(--muted); font-size: 15px; margin-bottom: 14px; }
 @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
 
-.pile { position: relative; height: 340px; overflow: hidden; background: var(--surface); border-radius: 4px; box-shadow: inset 0 -2px 0 var(--ink); }
-.pile:empty::after { content: "Blocks land here"; position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 15px; }
-.blk { position: absolute; height: 34px; border-radius: 3px; bottom: calc(var(--h) * 36px); animation: blkIn .8s ease-in-out both; }
-@keyframes blkIn {
-  0% { opacity: 0; transform: translateY(-300%) rotate(calc(var(--dir) * 30deg)); }
-  20% { opacity: 1; }
-  60% { transform: translateY(0) rotate(calc(var(--dir) * -4deg)); }
-  70% { transform: translateY(-10%) rotate(calc(var(--dir) * 2deg)); }
-  80% { transform: none; }
-  90% { transform: translateY(-5%) rotate(calc(var(--dir) * -1deg)); }
-  100% { opacity: 1; transform: none; }
-}
-.blk.fall { animation: blkFall .55s cubic-bezier(.74, .03, 1, 1) both; animation-delay: calc(var(--h) * 40ms); }
-@keyframes blkFall { 80% { opacity: 1; } to { transform: translateY(400%) rotate(calc(var(--dir) * 20deg)); opacity: 0; } }
+.tower { position: relative; height: 360px; overflow: hidden; background: var(--surface); border-radius: 4px; box-shadow: inset 0 -2px 0 var(--ink); cursor: pointer; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+.stack { position: absolute; inset: 0 0 2px; transition: transform .35s var(--out); }
+.tb { position: absolute; height: 28px; border-radius: 2px; }
+.tb.perfect { animation: perfect .5s var(--out); }
+@keyframes perfect { 0% { box-shadow: 0 0 0 0 var(--orange); } 40% { box-shadow: 0 0 0 4px var(--orange); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.tb.chunk, .tb.fall { animation: tbFall .8s cubic-bezier(.5, 0, .9, .5) forwards; }
+@keyframes tbFall { to { transform: translateY(420px) rotate(var(--rot, 10deg)); opacity: 0; } }
+.tower-msg { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 4px; color: var(--muted); font-size: 15px; pointer-events: none; }
+.tower-msg[hidden] { display: none; }
+.tower-msg b { display: block; color: var(--ink); font-size: 26px; font-weight: 500; letter-spacing: -.03em; }
 .score { margin-top: 16px; color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
 
 /* ================= CONTACT ================= */
