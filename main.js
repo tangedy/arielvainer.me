@@ -27,6 +27,19 @@
   }
   addEventListener('pageshow', e => { if (e.persisted) curtain.classList.remove('cover', 'out'); });
 
+  // start fetching a page as soon as someone points at its link, so the wipe lands on a ready page
+  const prefetched = new Set();
+  const prefetch = e => {
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank') return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || !/\.html$|\/$/.test(url.pathname) || url.pathname === location.pathname || prefetched.has(url.pathname)) return;
+    prefetched.add(url.pathname);
+    const l = document.createElement('link'); l.rel = 'prefetch'; l.href = url.pathname; document.head.appendChild(l);
+  };
+  document.addEventListener('pointerover', prefetch);
+  document.addEventListener('focusin', prefetch);
+
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href]');
     if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === '_blank') return;
