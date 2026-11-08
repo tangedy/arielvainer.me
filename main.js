@@ -221,17 +221,31 @@
   }
 
   /* ---------- games: hovering a screenshot flips through the others ---------- */
+  const touchOnly = matchMedia('(hover: none)').matches;
   $$('.games-list .shot').forEach(shot => {
     const imgs = $$('img', shot), dots = $$('.dots i', shot);
     if (imgs.length < 2) return;
-    let i = 0, timer;
+    let i = 0, timer = 0;
+    const ready = img => img.complete && img.naturalWidth > 0;
+    const warm = () => imgs.forEach(img => { img.loading = 'eager'; });
     const show = n => {
       imgs[i].classList.remove('on'); dots[i] && dots[i].classList.remove('on');
       i = n % imgs.length;
       imgs[i].classList.add('on'); dots[i] && dots[i].classList.add('on');
     };
-    shot.addEventListener('pointerenter', () => { if (reduce) return; show(i + 1); timer = setInterval(() => show(i + 1), 1100); });
-    shot.addEventListener('pointerleave', () => { clearInterval(timer); show(0); });
+    // advance to the next screenshot that has actually loaded (never flash an empty frame)
+    const next = () => { for (let k = 1; k < imgs.length; k++) { const j = (i + k) % imgs.length; if (ready(imgs[j])) { show(j); return; } } };
+    const start = ms => { if (reduce || timer) return; warm(); next(); timer = setInterval(next, ms); };
+    const stop = () => { clearInterval(timer); timer = 0; show(0); };
+    // start loading a card's screenshots shortly before it scrolls into view
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) warm(); }), { rootMargin: '300px 0px' }).observe(shot);
+    // hover and keyboard focus flip through the screenshots
+    shot.addEventListener('pointerenter', () => start(1100));
+    shot.addEventListener('pointerleave', stop);
+    shot.addEventListener('focus', () => start(1100));
+    shot.addEventListener('blur', stop);
+    // touch screens have no hover: flip slowly while the card sits in the middle of the screen
+    if (touchOnly) new IntersectionObserver(es => es.forEach(e => (e.isIntersecting ? start(1800) : stop())), { rootMargin: '-35% 0px -35% 0px' }).observe(shot);
   });
 
   /* ---------- tower game: a block slides side to side; drop it on the one below.
