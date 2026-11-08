@@ -21,13 +21,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=7b2c7ae7">
+<link rel="stylesheet" href="styles.css?v=2d040c1b">
 </head>
 <body>
+<a class="skip" href="#content">Skip to content</a>
 <header class="bar"><a class="home" href="index.html">Ariel Vainer</a><nav aria-label="Pages"><a href="about.html">About</a><a href="experience.html" aria-current="page">Experience</a><a href="games.html">Game dev</a><a href="contact.html">Contact</a></nav></header>
-<main class="page">
+<main id="content" class="page">
   <h1 class="page-title split">Experience</h1>
-  <section class="block first"><ol class="tickets"><li class="ticket fade">
+  <section class="block first" aria-labelledby="work"><h2 id="work" class="sr-only">Work</h2><ol class="tickets"><li class="ticket fade">
       <div class="stub"><img width="104" height="13" class="logo" src="img/logos/faire.svg" alt="Faire" loading="lazy" decoding="async"></div>
       <div class="ticket-body"><h3>Backend engineering intern</h3><p class="org">Faire</p><p class="when">May 2026–Aug 2026</p></div>
       <span class="punch" aria-hidden="true"></span>
@@ -53,13 +54,13 @@
   </section><section class="block grid">
     <div class="side"><h2 class="fade">Hackathon projects</h2><p class="fade">Click a project for what I built.</p></div>
     <div class="main"><ul class="rows"><li class="row fade" data-img="img/proj-fluency.webp">
-      <button type="button" aria-expanded="false"><h3>Fluency Lab</h3><span class="meta">DeltaHacks</span><span class="yr">2026</span></button>
+      <h3 class="row-h"><button type="button" aria-expanded="false"><span class="name">Fluency Lab</span><span class="meta">DeltaHacks</span><span class="yr">2026</span></button></h3>
       <div class="more"><div><figure class="photo shot" data-label="The team at DeltaHacks"><img width="1600" height="1202" src="img/proj-fluency.webp" alt="The team at DeltaHacks" onerror="this.remove()" loading="lazy" decoding="async"></figure><p>An app that gives feedback on how you speak. I ran an FFmpeg service on a Vultr VM to pull audio out of 5 to 10 minute videos, which got around Vercel's 10-second limit, and stored videos in S3 behind presigned URLs.</p><p class="stack muted">Next.js, AWS S3, MongoDB, FFmpeg, ElevenLabs</p><p class="proj-links"><a class="text-link" href="https://devpost.com/software/fluency-lab" target="_blank" rel="noopener">Devpost <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="text-link" href="https://www.fluencylab.tech/" target="_blank" rel="noopener">Live site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="text-link" href="https://github.com/VainerAriel/DeltaHacks12" target="_blank" rel="noopener">Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></p></div></div>
     </li><li class="row fade" data-img="img/proj-storybites.webp">
-      <button type="button" aria-expanded="false"><h3>StoryBites</h3><span class="meta">Hack the Valley, <span class="award">Best Beginner Hack</span></span><span class="yr">2025</span></button>
+      <h3 class="row-h"><button type="button" aria-expanded="false"><span class="name">StoryBites</span><span class="meta">Hack the Valley, <span class="award">Best Beginner Hack</span></span><span class="yr">2025</span></button></h3>
       <div class="more"><div><figure class="photo shot" data-label="The team at Hack the Valley"><img width="1368" height="1600" src="img/proj-storybites.webp" alt="The team at Hack the Valley" onerror="this.remove()" loading="lazy" decoding="async"></figure><p>A reading platform for dyslexic readers. I designed the Snowflake warehouse for profiles, stories, vocabulary and reading sessions, and built the serverless API with Auth0.</p><p class="stack muted">Snowflake, Vercel, Auth0</p><p class="proj-links"><a class="text-link" href="https://devpost.com/software/storybites" target="_blank" rel="noopener">Devpost <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="text-link" href="https://www.storybites.vip" target="_blank" rel="noopener">Live site <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="text-link" href="https://github.com/VainerAriel/HackTheValley2025" target="_blank" rel="noopener">Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></p></div></div>
     </li><li class="row fade" data-img="img/proj-pitchperfect.webp">
-      <button type="button" aria-expanded="false"><h3>PitchPerfect</h3><span class="meta">Hack the 6ix, <span class="award">MLH Best Use of Auth0</span></span><span class="yr">2025</span></button>
+      <h3 class="row-h"><button type="button" aria-expanded="false"><span class="name">PitchPerfect</span><span class="meta">Hack the 6ix, <span class="award">MLH Best Use of Auth0</span></span><span class="yr">2025</span></button></h3>
       <div class="more"><div><figure class="photo shot" data-label="The team at Hack the 6ix"><img width="1204" height="1600" src="img/proj-pitchperfect.webp" alt="The team at Hack the 6ix" onerror="this.remove()" loading="lazy" decoding="async"></figure><p>An AI roleplay partner for practising pitches. I built the Flask API around Gemini and the MongoDB schema that keeps long conversations in context.</p><p class="stack muted">Flask, Gemini, MongoDB, Auth0</p><p class="proj-links"><a class="text-link" href="https://devpost.com/software/pitch-perfect-fxtz4k" target="_blank" rel="noopener">Devpost <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="text-link" href="https://github.com/VainerAriel/HackThe6ix2025" target="_blank" rel="noopener">Code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></p></div></div>
     </li></ul></div>
   </section><section class="block grid">
@@ -72,6 +73,6 @@
   </section><a class="next fade" href="games.html"><span>Next</span><b>Game dev<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></b></a>
   <div class="float" aria-hidden="true"><figure class="photo" data-label=""></figure></div>
 </main>
-<script src="main.js?v=5018198b"></script>
+<script src="main.js?v=868de339"></script>
 </body>
 </html>

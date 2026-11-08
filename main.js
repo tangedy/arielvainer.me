@@ -52,6 +52,9 @@
       e.preventDefault();
       target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
       history.replaceState(null, '', url.hash);
+      // move keyboard focus there too (needed for the skip link and screen readers)
+      if (!target.matches('a, button, input, [tabindex]')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
       return;
     }
     if (!/\.html$|\/$/.test(url.pathname) || url.href === location.href) return;
