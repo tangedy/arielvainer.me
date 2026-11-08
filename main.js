@@ -31,7 +31,17 @@
     const a = e.target.closest('a[href]');
     if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target === '_blank') return;
     const url = new URL(a.href, location.href);
-    if (url.origin !== location.origin || !/\.html$|\/$/.test(url.pathname) || url.href === location.href) return;
+    if (url.origin !== location.origin) return;
+    // a link to a section of this same page (e.g. #triathlon) scrolls to it; no page wipe
+    if (url.pathname === location.pathname && url.search === location.search && url.hash) {
+      const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      history.replaceState(null, '', url.hash);
+      return;
+    }
+    if (!/\.html$|\/$/.test(url.pathname) || url.href === location.href) return;
     e.preventDefault();
     if (reduce) { location.href = url.href; return; }
     curtain.classList.remove('out');

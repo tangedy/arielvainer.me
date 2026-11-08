@@ -351,3 +351,8 @@ figcaption, .caption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 .page-contact .contact-row { margin: auto 0; padding: var(--s-title) 0; }
 .page-contact .links-wrap { margin-top: 0; }
 @media (max-width: 560px) { .page-contact { min-height: calc(100svh - 92px); } }
+
+/* in-page links (About's "Outside work" list): smooth scroll, and stop below the sticky header */
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+[id] { scroll-margin-top: calc(var(--bar-h) + 16px); }
+@media (max-width: 560px) { [id] { scroll-margin-top: 16px; } }
