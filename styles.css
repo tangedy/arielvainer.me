@@ -223,6 +223,10 @@ figcaption, .caption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 .ticket-body { padding: 24px 28px; display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; align-items: baseline; transition: padding .35s var(--out); }
 .ticket h3 { font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -.025em; line-height: 1.15; }
 .ticket .org { color: var(--muted); grid-column: 1; margin: 0; }
+/* several roles at one company: newest first, earlier roles slightly smaller */
+.ticket .roles { grid-column: 1 / -1; display: grid; gap: 6px; }
+.ticket .role { display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; align-items: baseline; }
+.ticket .role + .role h3 { font-size: clamp(18px, 1.7vw, 22px); }
 .ticket .when { color: var(--muted); font-size: 14px; grid-column: 2; grid-row: 1; white-space: nowrap; margin: 0; font-variant-numeric: tabular-nums; }
 .ticket .more { grid-column: 1 / -1; display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--out); }
 .ticket .more > div { overflow: hidden; }
@@ -238,6 +242,8 @@ figcaption, .caption { margin-top: 10px; font-size: 14px; color: var(--muted); }
   .ticket .stub { justify-content: flex-start; }
   .ticket .stub .logo { max-width: 88px; }
   .ticket .stub .logo.mark { max-width: 36px; }
+  .ticket .role { grid-template-columns: 1fr; gap: 0; }
+  .ticket .roles { gap: 12px; margin-bottom: 4px; }
   .ticket-body { grid-template-columns: 1fr; padding: 20px; }
   .ticket .when { grid-column: 1; grid-row: auto; order: -1; }
   .ticket.punched .ticket-body { padding-left: 20px; }
