@@ -214,8 +214,10 @@ figcaption, .caption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 .ticket:hover { transform: translateX(8px); }
 .ticket:not([role]) { cursor: default; }
 .ticket:not([role]):hover { transform: none; }
-.ticket .stub { display: flex; align-items: flex-end; padding: 18px; background: var(--pink); border-right: 1px dashed rgba(21,21,21,.25); min-height: 120px; font-size: 15px; font-weight: 500; transition: background .4s var(--out); }
+.ticket .stub { display: flex; align-items: center; justify-content: center; text-align: center; padding: 18px; background: var(--pink); border-right: 1px dashed rgba(21,21,21,.25); min-height: 120px; font-size: 15px; font-weight: 500; transition: background .4s var(--out); }
 .ticket:hover .stub { background: var(--pink-deep); }
+.ticket .stub .logo { width: 100%; max-width: 104px; height: auto; }
+.ticket .stub .wordmark { font-size: 19px; font-weight: 500; letter-spacing: -.03em; line-height: 1.1; }
 .ticket-body { padding: 24px 28px; display: grid; grid-template-columns: 1fr auto; gap: 4px 24px; align-items: baseline; transition: padding .35s var(--out); }
 .ticket h3 { font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -.025em; line-height: 1.15; }
 .ticket .org { color: var(--muted); grid-column: 1; margin: 0; }
@@ -231,6 +233,8 @@ figcaption, .caption { margin-top: 10px; font-size: 14px; color: var(--muted); }
 @media (max-width: 640px) {
   .ticket { grid-template-columns: 1fr; -webkit-mask: none; mask: none; overflow: hidden; }
   .ticket .stub { min-height: 0; padding: 12px 20px; border-right: 0; border-bottom: 1px dashed rgba(21,21,21,.25); }
+  .ticket .stub { justify-content: flex-start; }
+  .ticket .stub .logo { max-width: 88px; }
   .ticket-body { grid-template-columns: 1fr; padding: 20px; }
   .ticket .when { grid-column: 1; grid-row: auto; order: -1; }
   .ticket.punched .ticket-body { padding-left: 20px; }
